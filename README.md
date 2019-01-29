@@ -5,7 +5,7 @@ This project is part of the Udacity Data Analyst Nanodegree under the learning
 of EDA (exploring Data Analysis) using **R** .
 
 ##  Data 
-for more information about the data refer to data.info file.
+for more information about the data refer to data_info.text file.
 
 ## Languages:
 R
