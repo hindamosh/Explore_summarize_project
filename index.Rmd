@@ -2,13 +2,6 @@
 title: "Explore and Summarize data project with R"
 author: "Hindam"
 date: "January 27, 2019"
-navbar:
-  title: "Project"
-  left:
-    - text: "Home"
-      href: index.html
-    - text: "RESOURCES"
-      href: RESOURCES.md
 output:
   html_document:
     include:
@@ -850,23 +843,32 @@ g4
 </div>
 
 ***
+# Reflection
+The red wines data set contains information on almost 1,599 red wines across 11 variables from around 2009. I started by understanding the individual variables in the data set, and then I explored interesting questions and leads as I continued to make observations on plots. Eventually, I explored the quality of diamonds across many variables.
 
+There was a clear trend between the alcohol concentration or volatile acidity of a red wine and its quality. I was surprised that citric acid did not have a strong positive correlation with quality. I struggled understanding the variance in quality as the level of  Free S02 & Total SO2 get increased, but this became more clear when I realized that most of the data contained average rating of quality rank 5 &6.
 
+Some limitations of this data include:
 
-
-
-```{r}
-# Session information:
-sessionInfo()
-```
-
-
+- The source of the data. Given that the red wines date to 2009.
+- The imbalance nature of the data most of the quality related to the average group.
+- It's related to only one brand , quality could be differed in presence of other brand
+- I have not expeeinced before with wine, so I guess in this topic domain experience is usefull, and this could suggest the idea of using addictive wine user for the test.
+- As per my google search people generally have individual preference for wines, even that     each occassion has its own wine atmosphere and kind, with meal or without, party or gift.
+- Some other variables could be added like tannins content
 
 
 ***
+```{r}
+
+```
 
 # Resources
 
-```{r child= 'RESOURCES.md'}
-```
+<ul>
+<li><a href="'https://holtzy.github.io/Pimp-my-rmd/'">Pimp my RMD</a></li>
+<li>The <a href="'https://rmarkdown.rstudio.com/'">R markdown website</a></li>
+<li><a href="'http://jamesmarquezportfolio.com/correlation_matrices_in_r.html'">Correlation plots</a></li>
+<li><a href="'http://tholman.com/github-corners/'">Github corner</a></li>
+</ul>
 
