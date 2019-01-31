@@ -1,8 +1,1 @@
 theme: jekyll-theme-cayman
-navbar:
-  title: "Project"
-  left:
-    - text: "Home"
-      href: index.html
-    - text: "RESOURCES"
-      href: RESOURCES.md
