@@ -2,6 +2,13 @@
 title: "Explore and Summarize data project with R"
 author: "Hindam"
 date: "January 27, 2019"
+navbar:
+  title: "Project"
+  left:
+    - text: "Home"
+      href: index.html
+    - text: "RESOURCES"
+      href: RESOURCES.md
 output:
   html_document:
     include:
@@ -61,9 +68,9 @@ summary(df)
 - First as the quality is our main concern, let's see the distribution of quality
 
 ```{r}
-ggplot(aes(x= quality), data= df)+
-  geom_histogram(stat = 'count')+
-  scale_x_continuous(breaks = seq(0,10,1))
+g1 <- ggplot(aes(x= as.factor(quality)), data= df)+
+  geom_histogram(stat = 'count')
+g1
 ```
 
 - From the above plot we can notice that the distribution of quality is **normal** and also **bimodal**.
@@ -227,9 +234,9 @@ summary(df$rating)
 ```
 
 ```{r}
-ggplot(aes(x= rating), data = df)+
+g2 <- ggplot(aes(x= rating), data = df)+
   geom_bar()
-
+g2
 ```
 
 - From the above we conclude the majority of red wines rating is **average**
@@ -317,11 +324,12 @@ ggcorr(df[ , -c(1,14)], nbreaks=8, palette='RdGy', label=TRUE, label_size=5, lab
 
 ```{r}
 df$quality <- factor(df$quality, ordered = T)
-ggplot(data = df, aes(x = quality, y = alcohol,fill = rating)) +
+g3<-ggplot(data = df, aes(x = quality, y = alcohol,fill = rating)) +
   geom_boxplot() +
   ggtitle('Alcohol in Different Red Wine Qualities') +
   xlab('Quality') +
   ylab('Alcohol (% by volume)')
+g3
 ```
 
 ```{r}
@@ -600,7 +608,7 @@ wih quality.
 ggplot(aes(x= quality , y =  alcohol),
        data = df)+
   geom_bar(aes(fill = rating), stat = 'summary', fun.y= median)+
-  ggtitle('Median of Alcohols in Different Red Wine Qualities')+
+  ggtitle('Median of Alcohol in Different Red Wine Qualities')+
   ylab('Median Alcohol')
 
 
@@ -614,6 +622,8 @@ df %>%
   arrange(rating)
 ```
 
+The median for alcohol concentration is increasing above quality levels.
+
 ***
 
 Now, Let's divide in more about alcohol with other variables starting with fixed acidity.
@@ -622,18 +632,20 @@ Now, Let's divide in more about alcohol with other variables starting with fixed
 ggplot(aes(x= alcohol, y= fixed.acidity,color = rating),
        data= subset(df,rating != 'average'))+
   geom_smooth()+
+  geom_jitter(alpha = 0.3)+
   ggtitle('Fixed acidity VS Alcohol in Red wines')
 
 
 ```
 
-- The higher quality of red wines tend to have higher fixed acidity
+- The higher quality of red wines tend to have **higher fixed acidity**.
 
 
 ```{r}
 ggplot(aes(x= alcohol, y= volatile.acidity,color = rating),
        data= subset(df,rating != 'average'))+
   geom_smooth()+
+  geom_jitter(alpha = 0.3)+
   ggtitle('Volatile acidity VS Alcohol in Red wines') 
 
 ```
@@ -647,7 +659,8 @@ ggplot(aes(y= fixed.acidity/volatile.acidity, x= alcohol),
             stat = 'summary',
             fun.y= median)+
   facet_grid(~rating)+
-  ggtitle('Fixed acidity/ volatile acidity VS Alcohol in Red wines')+
+  ggtitle('Fixed acidity/ volatile acidity VS Alcohol in Red wines',
+          subtitle = 'Facet Wrap by rating')+
   ylab('ratio')
 
 ```
@@ -655,14 +668,14 @@ ggplot(aes(y= fixed.acidity/volatile.acidity, x= alcohol),
 - Let's focus more on difference between bad and good qualities.
 
 ```{r}
-ggplot(aes(x= alcohol, y=  fixed.acidity/volatile.acidity ,color = rating ),
+g4 <-ggplot(aes(x= alcohol, y=  fixed.acidity/volatile.acidity ,color = rating ),
        data= subset(df,rating != 'average'))+
   geom_smooth()+
+  geom_jitter(alpha = 0.3)+
   geom_hline(yintercept = 20, linetype= 5)+
   ggtitle('Fixed acidity/ volatile acidity VS Alcohol in Red wines') +
-  xlab('Quality') +
   ylab('ratio')
-
+g4
 ```
 
 <style>
@@ -677,14 +690,13 @@ div.blue { background-color:#e6f0ff; border-radius: 5px; padding: 20px;}
 ***
 
 ```{r}
-ggplot(aes(x= alcohol, y= sulphates,color = rating ),
+ggplot(aes(x= alcohol, y= sulphates,color = quality ),
        data= df)+
-  geom_point(
-            stat = 'summary',
-            fun.y= median)+
+  geom_point(alpha=0.3)+
   facet_grid(~rating)+
   geom_smooth()+
-  ggtitle('Sulphates VS Alcohol in Red wines')
+  ggtitle('Sulphates VS Alcohol in Red wines',
+          subtitle = 'Facet Wrap by rating')
   
 ```
 
@@ -693,7 +705,7 @@ div.blue { background-color:#e6f0ff; border-radius: 5px; padding: 20px;}
 </style>
 <div class = "blue">
 
-- Although high quality red wines tend to have higher sulphates conc., but the effect of sulphates here is not quiet clear to determine its effect on quality specially for the high variability in the average group.
+- Although high quality red wines tend to have higher sulphates conc., but the effect of sulphates here is not quiet clear to determine its effect on quality specially for the higher variability in the avearge group.
 
 </div>
 
@@ -703,7 +715,7 @@ div.blue { background-color:#e6f0ff; border-radius: 5px; padding: 20px;}
 ```{r}
 ggplot(aes(x= alcohol , y =  citric.acid, color= rating),
        data = subset(df, rating != 'average'))+
-  geom_point()+
+  geom_jitter(alpha=0.3)+
   geom_smooth()+
   ggtitle('Citric acid VS Alcohol in Red wines')
 
@@ -716,27 +728,135 @@ ggplot(aes(x= alcohol , y =  citric.acid, color= rating),
 ```{r}
 ggplot(aes(x= alcohol , y = pH, color = rating),
        data = subset(df, rating != 'average'))+
-  geom_point()+
+  geom_point(alpha=0.3)+
   geom_smooth()+
   ggtitle('pH VS Alcohol in Red wines') 
 ```
 
-- Although the correlation between quality and pH was _-0.1_ , but here high quality wines has tendency for lower pH specially less than _3.2_.
+- Although the correlation between quality and pH was _-0.1_ , but here high quality wines has tendency for lower pH specially less than _3.2_ which sounds logic as higher quality alcohol tend to have more citric acid and fixed acidity which for sure leads to lower pH values.
 
+***
 
 ```{r}
-ggplot(aes(y= free.sulfur.dioxide/(total.sulfur.dioxide - free.sulfur.dioxide ), x=  alcohol ,color = rating ),
-       data= df)+
+ggplot(aes(x= alcohol , y = (citric.acid+fixed.acidity + volatile.acidity), color= rating),
+       data = subset(df,rating !='average'))+
+  geom_point()+
+  geom_smooth()+
+  ggtitle('Total acidity VS Alcohol in Red wines')+
+  ylab('Total acidity')
+```
+
+<style>
+div.blue { background-color:#e6f0ff; border-radius: 5px; padding: 20px;}
+</style>
+<div class = "blue">
+
+- Intersting point here as although higher quality red wines tend to have less volatile acidity but the overall comined acidity in them is higher which reflects the pH values to be smaller in compasion to bad quality ones.
+
+</div>
+
+```{r}
+ggplot(aes(y= (free.sulfur.dioxide/(total.sulfur.dioxide - free.sulfur.dioxide)), 
+           x=  alcohol ,color = rating ),data= df)+
   geom_point(alpha=0.3)+
   geom_smooth()+
-  ggtitle('Free SO2 / Bound SO2 VS Alcohol in Red wines') +
-  ylab('ratio')
+  ggtitle('Free SO2 / Bound SO2 VS Alcohol in Red wines',
+          subtitle = 'Facet Wrap by rating') +
+  ylab('ratio')+
+  facet_wrap(.~rating)
 
 ```
 
-- As a try to calculate the ratio of free SO2 to bound SO2, it seems that all the quality levels behave in the same trend with majority having ratio less than 1.
+- As a try to calculate the ratio of free SO2 to bound SO2, it seems that all the quality levels behave in the same trend with majority having ratio less than 1 except for the variance in the average group.
+
+***
+
+# Multivariate Analysis
+
+#### Talk about some of the relationships you observed in this part of the investigation. Were there features that strengthened each other in terms of looking at your feature(s) of interest?
+High quality red wines have the largest median & mean for alcohol concentration.
+
+In comparing to alcohol, I found that high quality alcohols tends to have higher fixed acidity and citric acid, but lower volatile acidity and pH.
+
+No effect for sulphates neither nor ration of Free SO2: Bound SO2.
+
+#### Were there any interesting or surprising interactions between features?
+By measuring Fixed acidity to volatile acidity ration, I noticed that the higher qulaity red wines tend to have higher ratio above 20.
+
+Despite the positive correlation between quality and sulphates but I conclude that sulphates acts in different manner in compaing to alcohol across all rating levels
+
+Although the correlation between quality and pH was too weak and negative , but high quality wines has tendency for lower pH specially less than 3.2.
+
+Citric acid is higher in high quality red wines than in bad quality.
+
+***
+
+# Final Plots and Summary
+
+
+### Plot One
+```{r}
+plot1 <- g1+
+  xlab('quality')+
+  ggtitle('Red Wines Distribution by Quality')
+
+plot2 <- g2+
+  ggtitle('Red Wines Distribution by rating')
+
+grid.arrange(plot1,plot2,ncol=2)
+
+```
+
+### Description One
+The histogram shows clearly that most of the red wines quality on sclaes 5 & 6
+and so they have the average rating.
+
+
+***
+<div class = "row">
+  
+<div class = "col-md-8">
+<h3>Plot Two</h3>
+```{r}
+g3
+
+```
+</div>
+
+<div class = "col-md-4">
+<h3>Description Two</h3>
+<br><br>The boxplots here show good quality red wines has the largest median Alcohol compared to the other qualities, it's obvious..
+</div>
+
+</div>
+
+***
+
+<div class = "row">
+
+<div class = "col-md-8">
+<h3>Plot Three</h3>
+```{r}
+g4
+
+```
+</div>
+
+<div class = "col-md-4">
+<h3>Description Three</h3>
+<br><br>The higher qulaity red wines tend to have higher fixed acidity to volatile acidity ratio above 20, also the majority of average & bad red wines at different concentration of alcohol tends to have fixed:volatile ratio at below that line.
+</div>
+
+</div>
+
+***
+
+
+
+
 
 ```{r}
+# Session information:
 sessionInfo()
 ```
 
@@ -747,9 +867,6 @@ sessionInfo()
 
 # Resources
 
-- [Pimp my RMD]('https://holtzy.github.io/Pimp-my-rmd/')
-- The [R markdown website]('https://rmarkdown.rstudio.com/')
-- [Correlation plots]('http://jamesmarquezportfolio.com/correlation_matrices_in_r.html')
-- [Github corner]('http://tholman.com/github-corners/')
-
+```{r child= 'RESOURCES.md'}
+```
 

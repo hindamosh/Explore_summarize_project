@@ -1,0 +1,4 @@
+- [Pimp my RMD]('https://holtzy.github.io/Pimp-my-rmd/')
+- The [R markdown website]('https://rmarkdown.rstudio.com/')
+- [Correlation plots]('http://jamesmarquezportfolio.com/correlation_matrices_in_r.html')
+- [Github corner]('http://tholman.com/github-corners/')
