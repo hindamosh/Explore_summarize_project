@@ -947,10 +947,10 @@ Some limitations of this data include:
 # Resources
 
 <ul>
-<li><a href="'https://holtzy.github.io/Pimp-my-rmd/'">Pimp my RMD</a></li>
-<li>The <a href="'https://rmarkdown.rstudio.com/'">R markdown website</a></li>
-<li><a href="'http://jamesmarquezportfolio.com/correlation_matrices_in_r.html'">Correlation plots</a></li>
-<li><a href="'http://tholman.com/github-corners/'">Github corner</a></li>
+<li><a href="https://holtzy.github.io/Pimp-my-rmd/">Pimp my RMD</a></li>
+<li>The <a href="'https://rmarkdown.rstudio.com/">R markdown website</a></li>
+<li><a href="http://jamesmarquezportfolio.com/correlation_matrices_in_r.html">Correlation plots</a></li>
+<li><a href="http://tholman.com/github-corners/">Github corner</a></li>
 </ul>
 
 ```{r}
